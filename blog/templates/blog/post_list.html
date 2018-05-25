@@ -1,0 +1,15 @@
+{% extends 'blog/base_page.html' %}
+    {% block title %}
+        <title>Posts</title>
+    {% endblock %}
+{% block content %}
+    {% if user == blog.author.username %}
+        <a href="{% url 'post_new' pk=blog.pk %}">New post</a>
+    {% endif %}
+{% for post in blog.posts.all|dictsortreversed:"created_date"%}
+    <h1><a href="{% url 'post_detail' pk=post.pk %}">{{ post.title }}</a></h1>
+    <p>{{ post.text|linebreaksbr }}</p>
+    Comments: {{ post.comments.count }}<br>
+    Created: {{ post.created_date }}
+{% endfor %}
+{% endblock %}

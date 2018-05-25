@@ -1,0 +1,28 @@
+{% extends 'blog/base_page.html' %}
+    {% block title %}
+        <title>Post</title>
+    {% endblock %}
+
+{% block content %}
+    <div class="post">
+        {% if user == blog.author.username %}
+        <a href="{% url 'post_edit' pk=post.id %}">Rewrite post</a>
+        {% endif %}
+        <h2>{{ post.title }}</h2>
+        <p>{{ post.text|linebreaksbr }}</p>
+        <p>{{ post.created_date }}</p>
+    {% if user %}
+        <a href="{% url 'add_comment_to_post' pk=post.pk %}">Add comment</a><br>
+    {% endif %}
+    <h4 >Comments:</h4>
+    {% for comment in post.comments.all|dictsort:"created_date" %}
+        <hr>
+        <p><strong>{{ comment.author }}</strong></p>
+            <p>{{ comment.text|linebreaks }}</p>
+            <p>{{ comment.created_date }}</p>
+    {% empty %}
+        <p>No comments here yet :(</p>
+{% endfor %}
+    </div>
+
+{% endblock %}

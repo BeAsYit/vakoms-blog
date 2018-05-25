@@ -1,0 +1,16 @@
+{% extends 'blog/base_page.html' %}
+    {% block title %}
+        <title>Blogs</title>
+    {% endblock %}
+{% block content %}
+        {% if user %}
+        <a href="{% url 'blog_new'%}">New blog</a>
+    {% endif %}
+ {% for blog in blogs reversed %}
+     <div class="blog">
+     <h1><a href="{% url 'post_list' pk=blog.pk %}">{{ blog.title }}</a></h1>
+         Author: {{ blog.author }}<br>
+         Posts: {{ blog.posts.count }}
+     </div>
+{% endfor %}
+{% endblock %}
