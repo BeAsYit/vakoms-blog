@@ -41,15 +41,19 @@ INSTALLED_APPS = [
     'blog',
     'users',
 
+    #django-allauth
     'allauth',
     'allauth.account',
     'allauth.socialaccount',
 ]
 
+# for authentication
 AUTH_USER_MODEL = 'users.CustomUser'
 ACCOUNT_SIGNUP_FORM_CLASS = 'users.forms.CustomUserCreationForm'
 SOCIALACCOUNT_AUTO_SIGNUP = False
 
+
+# django-allauth
 AUTHENTICATION_BACKENDS = (
     'django.contrib.auth.backends.ModelBackend',
     'allauth.account.auth_backends.AuthenticationBackend',
@@ -90,6 +94,7 @@ WSGI_APPLICATION = 'vakoms.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/2.0/ref/settings/#databases
 
+# default changed to mysql
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.mysql',
@@ -123,6 +128,7 @@ LOGIN_REDIRECT_URL = '/'
 LOGIN_URL = '/accounts/login/'
 EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
 
+#allauth
 ACCOUNT_EMAIL_VERIFICATION = "mandatory"
 ACCOUNT_EMAIL_REQUIRED = True
 SOCIALACCOUNT_QUERY_EMAIL = True

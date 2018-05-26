@@ -1,5 +1,4 @@
 from django.conf import settings
-from django.contrib import messages
 from django.contrib.auth.models import User
 from django.core.mail import send_mail
 
@@ -94,17 +93,18 @@ def add_comment_to_post(request, pk):
             comment.author = request.user
             comment.save()
             # send message to author
-            # if post.author != request.user:
-            #     user = get_object_or_404(User, id=post.author.author_id)
-            #     subject = 'Your post {} was commented by {}'.format(post.title, request.user)
-            #     message = '{} check your blog post faster, {} left a comment!'.format(user.username ,request.user)
-            #     from_email = settings.EMAIL_HOST_USER
-            #     to_list = [user.email]
-            #     send_mail(subject, message, from_email, to_list, fail_silently=True)
+            if post.author != request.user:
+                user = get_object_or_404(User, id=post.author.author_id)
+                subject = 'Your post {} was commented by {}'.format(post.title, request.user)
+                message = '{} check your blog post faster, {} left a comment!'.format(user.username, request.user)
+                from_email = settings.EMAIL_HOST_USER
+                to_list = [user.email]
+                send_mail(subject, message, from_email, to_list, fail_silently=True)
             return redirect('post_detail', pk=post.pk)
     else:
         form = CommentForm()
     return render(request, 'blog/add_comment.html', {'form': form})
+
 
 @verified_email_required
 def reply_to_comment(request, pk):
@@ -114,7 +114,7 @@ def reply_to_comment(request, pk):
         if form.is_valid():
             reply = form.save(commit=False)
             reply.post = get_object_or_404(Post, pk=comment.post_id)
-            reply.author =request.user
+            reply.author = request.user
             reply.parent_id = comment.id
             reply.save()
             return redirect('post_detail', pk=comment.post_id)
