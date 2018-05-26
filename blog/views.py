@@ -105,3 +105,19 @@ def add_comment_to_post(request, pk):
     else:
         form = CommentForm()
     return render(request, 'blog/add_comment.html', {'form': form})
+
+@verified_email_required
+def reply_to_comment(request, pk):
+    comment = get_object_or_404(Comment, id=pk)
+    if request.method == "POST":
+        form = CommentForm(request.POST)
+        if form.is_valid():
+            reply = form.save(commit=False)
+            reply.post = get_object_or_404(Post, pk=comment.post_id)
+            reply.author =request.user
+            reply.parent_id = comment.id
+            reply.save()
+            return redirect('post_detail', pk=comment.post_id)
+    else:
+        form = CommentForm()
+    return render(request, 'blog/add_comment.html', {'form':form})

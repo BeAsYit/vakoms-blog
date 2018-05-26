@@ -16,10 +16,29 @@
     {% endif %}
     <h4 >Comments:</h4>
     {% for comment in post.comments.all|dictsort:"created_date" %}
+
+        {% if comment.parent_id == Null %}
         <hr>
         <p><strong>{{ comment.author }}</strong></p>
             <p>{{ comment.text|linebreaks }}</p>
+            <a href="{% url 'reply_to_comment' pk=comment.id %}">Reply</a>
             <p>{{ comment.created_date }}</p>
+        {% endif %}
+        {% for reply in post.comments.all|dictsort:"created_date"%}
+            {% if reply.parent_id == comment.id %}
+                <div class="reply">
+                <p><strong>{{ reply.author }}</strong></p>
+                <p>{{ reply.text|linebreaks }}</p>
+                <a href="{% url 'reply_to_comment' pk=comment.id %}">Reply</a>
+                <p>{{ reply.created_date }}</p>
+                </div>
+            {% endif %}
+        
+        {% endfor %}
+        
+        
+        
+        
     {% empty %}
         <p>No comments here yet :(</p>
 {% endfor %}
