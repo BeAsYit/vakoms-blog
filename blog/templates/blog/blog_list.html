@@ -9,7 +9,9 @@
  {% for blog in blogs reversed %}
      <div class="blog">
      <h1><a href="{% url 'post_list' pk=blog.pk %}">{{ blog.title }}</a></h1>
-         <a href="{% url 'blog_edit' pk=blog.pk %}">Edit blog</a><br>
+         {% if user == blog.author.username %}
+             <a href="{% url 'blog_edit' pk=blog.pk %}">Edit blog</a><br>
+         {% endif %}
          Author: {{ blog.author }}<br>
          Posts: {{ blog.posts.count }}
      </div>

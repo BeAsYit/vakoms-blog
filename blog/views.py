@@ -93,8 +93,8 @@ def add_comment_to_post(request, pk):
             comment.author = request.user
             comment.save()
             # send message to author
-            if post.author != request.user:
-                user = get_object_or_404(CustomUser, id=post.author.author_id)
+            user = get_object_or_404(CustomUser, id=post.author.author_id)
+            if user.username != str(request.user):
                 subject = 'Your post {} was commented by {}'.format(post.title, request.user)
                 message = '{} check your blog post faster, {} left a comment!'.format(user.username, request.user)
                 from_email = settings.EMAIL_HOST_USER
