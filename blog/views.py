@@ -1,10 +1,10 @@
 from django.conf import settings
-from django.contrib.auth.models import User
 from django.core.mail import send_mail
 
 from django.shortcuts import render, get_object_or_404, redirect
 from allauth.account.decorators import verified_email_required
 # from allauth.
+from users.models import CustomUser
 from .forms import PostForm, CommentForm, BlogForm
 from .models import Post, Comment, Blog
 
@@ -94,7 +94,7 @@ def add_comment_to_post(request, pk):
             comment.save()
             # send message to author
             if post.author != request.user:
-                user = get_object_or_404(User, id=post.author.author_id)
+                user = get_object_or_404(CustomUser, id=post.author.author_id)
                 subject = 'Your post {} was commented by {}'.format(post.title, request.user)
                 message = '{} check your blog post faster, {} left a comment!'.format(user.username, request.user)
                 from_email = settings.EMAIL_HOST_USER
