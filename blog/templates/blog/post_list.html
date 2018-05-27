@@ -9,6 +9,7 @@
 {% for post in blog.posts.all|dictsortreversed:"created_date"%}
     <h1><a href="{% url 'post_detail' pk=post.pk %}">{{ post.title }}</a></h1>
     <p>{{ post.text|linebreaksbr }}</p>
+    <a href="{% url 'post_edit' pk=post.pk %}">Edit post</a><br>
     Comments: {{ post.comments.count }}<br>
     Created: {{ post.created_date }}
 {% endfor %}

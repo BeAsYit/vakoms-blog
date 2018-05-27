@@ -10,5 +10,5 @@ urlpatterns = [
     url(r'^posts/(?P<pk>\d+)/postnew/', views.post_new, name='post_new'),
     url(r'^post/(?P<pk>[0-9]+)/postedit/', views.post_edit, name='post_edit'),
     url(r'blog/new', views.blog_new, name='blog_new'),
-    url(r'blog/edit', views.blog_edit, name="blog_edit"),
+    url(r'blog/(?P<pk>[0-9]+)/edit', views.blog_edit, name="blog_edit"),
 ]

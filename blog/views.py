@@ -47,9 +47,9 @@ def blog_edit(request, pk):
             blog = form.save(commit=False)
             blog.author = request.user
             blog.save()
-            return redirect('post_detail', pk=blog.pk)
+            return redirect('blog_list')
     else:
-        form = PostForm(instance=blog)
+        form = BlogForm(instance=blog)
     return render(request, 'blog/blog_edit.html', {'form': form})
 
 
@@ -76,9 +76,9 @@ def post_edit(request, pk):
         if form.is_valid():
             post = form.save(commit=False)
             post.save()
-            return redirect('blog_list')
+            return redirect('post_detail', pk=post.pk)
     else:
-        form = PostForm()
+        form = PostForm(instance=post)
     return render(request, 'blog/post_new.html', {'form': form})
 
 
