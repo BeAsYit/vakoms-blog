@@ -1,31 +1,43 @@
 from django.conf import settings
 from django.core.mail import send_mail
-
 from django.shortcuts import render, get_object_or_404, redirect
+# imports for django-allauth
 from allauth.account.decorators import verified_email_required
-# from allauth.
 from users.models import CustomUser
 from .forms import PostForm, CommentForm, BlogForm
 from .models import Post, Comment, Blog
 
 
 def blog_list(request):
+    """
+    View to show our blogs
+    """
     blogs = Blog.objects.all()
     return render(request, 'blog/blog_list.html', {'blogs':blogs})
 
 
 def post_list(request, pk):
+    """
+    View to show posts of specific blog
+    """
     blog = get_object_or_404(Blog, pk=pk)
     return render(request, 'blog/post_list.html', {'blog': blog})
 
 
 def post_detail(request, pk):
+    """
+    View to show details of specific post
+    """
     post = get_object_or_404(Post, pk=pk)
     return render(request, 'blog/post_detail.html', {'post':post})
 
 
 @verified_email_required
 def blog_new(request):
+    """
+    View to create a new blog
+    Requires verified email and logged in status
+    """
     if request.method == "POST":
         form = BlogForm(request.POST)
         if form.is_valid():
@@ -40,6 +52,11 @@ def blog_new(request):
 
 @verified_email_required
 def blog_edit(request, pk):
+    """
+    View to edit a specific blog
+    Requires verified email and logged in status
+    User must be owner of this blog
+    """
     blog = get_object_or_404(Blog, pk=pk)
     if request.method == "POST":
         form = BlogForm(request.POST, instance=blog)
@@ -55,6 +72,11 @@ def blog_edit(request, pk):
 
 @verified_email_required
 def post_new(request, pk):
+    """
+    View to make a new post in a specific blog
+    Requires verified email and logged in status
+    User must be owner of this blog
+    """
     blog = get_object_or_404(Blog, pk=pk)
     if request.method == "POST":
         form = PostForm(request.POST)
@@ -70,6 +92,11 @@ def post_new(request, pk):
 
 @verified_email_required
 def post_edit(request, pk):
+    """
+    View to edit a post in a specific blog
+    Requires verified email and logged in status
+    User must be owner of this blog
+    """
     post = get_object_or_404(Post, id=pk)
     if request.method == "POST":
         form = PostForm(request.POST, instance=post)
@@ -84,6 +111,11 @@ def post_edit(request, pk):
 
 @verified_email_required
 def add_comment_to_post(request, pk):
+    """
+    View to left a comment under specific post
+    Requires verified email and logged in status
+    If user is not author and commented this post we will send notification to post owner email
+    """
     post = get_object_or_404(Post, pk=pk)
     if request.method == "POST":
         form = CommentForm(request.POST)
@@ -108,6 +140,10 @@ def add_comment_to_post(request, pk):
 
 @verified_email_required
 def reply_to_comment(request, pk):
+    """
+    View to reply specific comment
+    Requires verified email and logged in status
+    """
     comment = get_object_or_404(Comment, id=pk)
     if request.method == "POST":
         form = CommentForm(request.POST)

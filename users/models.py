@@ -7,5 +7,9 @@ class CustomUserManager(UserManager):
 
 
 class CustomUser(AbstractUser):
+    """
+    Modify standard User model:
+    Add new field 'phone'
+    """
     phone = models.CharField(max_length=15, null=True)
     objects = CustomUserManager()

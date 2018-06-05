@@ -41,7 +41,7 @@ INSTALLED_APPS = [
     'blog',
     'users',
 
-    #django-allauth
+    #django-allauth apps
     'allauth',
     'allauth.account',
     'allauth.socialaccount',
@@ -53,7 +53,7 @@ ACCOUNT_SIGNUP_FORM_CLASS = 'users.forms.CustomUserCreationForm'
 SOCIALACCOUNT_AUTO_SIGNUP = False
 
 
-# django-allauth
+# django-allauth backend
 AUTHENTICATION_BACKENDS = (
     'django.contrib.auth.backends.ModelBackend',
     'allauth.account.auth_backends.AuthenticationBackend',
@@ -128,7 +128,7 @@ LOGIN_REDIRECT_URL = '/'
 LOGIN_URL = '/accounts/login/'
 EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
 
-#allauth
+#allauth properties
 ACCOUNT_EMAIL_VERIFICATION = "mandatory"
 ACCOUNT_EMAIL_REQUIRED = True
 SOCIALACCOUNT_QUERY_EMAIL = True
