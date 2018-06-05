@@ -29,8 +29,10 @@ default-character-set = utf8*
 - systemctl restart mysql
 - pip install -r req.txt
 
+### Run unittests:
+### - python3 manage.py test
 
-### Runserver:
+### Run server:
 #### - python3 manage.py makemigrations
 #### - python3 manage.py migrate
 #### - python3 manage.py runserver
